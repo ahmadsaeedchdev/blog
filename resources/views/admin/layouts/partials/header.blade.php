@@ -16,6 +16,7 @@
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
+    @notifyCss
     <link rel="stylesheet" href="{{asset('css/panel-css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('panel-images/favicon.ico')}}" />
@@ -23,7 +24,10 @@
 </head>
 
 <body>
+    
     <div class="container-scroller">
+        <x:notify-messages />
+          @notifyJs
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -253,9 +257,8 @@
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
-      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
+      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf </form>
+   
     <!-- plugins:js -->
     <script src="{{asset('js/ven-js/vendor.bundle.base.js')}}"></script>
 
@@ -265,7 +268,7 @@
 
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-
+    
     <script src="{{asset('js/panel-js/hoverable-collapse.js')}}"></script>
     <script src="{{asset('js/panel-js/misc.js')}}"></script>
     <!-- endinject -->
@@ -274,6 +277,7 @@
     <script src="{{asset('js/panel-js/todolist.js')}}"></script>
    
     <!-- End custom js for this page -->
+    
 </body>
 
 </html>

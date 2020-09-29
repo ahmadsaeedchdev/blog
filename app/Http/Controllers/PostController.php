@@ -41,11 +41,13 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+
         $data = $this->validate_data($request);
-        $slug = Str::slug($data['slug']);
+        $slug = Str::slug($data['title']);
         $image_path = $this->store_image($request->image, 'blog_images');
         $data = array_merge($data, ['image' => $image_path, 'slug' => $slug]);
         Post::create($data);
+        notify()->success('Post created Successfully ⚡️');
         return redirect(route('post.index'));
     }
 
@@ -84,6 +86,7 @@ class PostController extends Controller
         //
         if ($request->hasFile('image')) {
             $data  =  $this->validate_data($request, $post->id);
+            $this->deleteImage($post->image);
             $image_path = $this->store_image($request->image, 'blog_images');
             $data = array_merge($data, ['image' => $image_path]);
             $post->update($data);
@@ -106,9 +109,7 @@ class PostController extends Controller
     {
 
         $image = $post->image;
-        $image = explode('/', $image, 2);
-
-        Storage::delete($image[1]);
+        $this->deleteImage($post->image);
         $post->delete();
         return redirect(route('post.index'));
     }
@@ -118,7 +119,6 @@ class PostController extends Controller
         if ($request->isMethod('post')) {
             return $request->validate([
                 'title' => 'required|min:10|unique:posts,title',
-                'slug' => 'required',
                 'body' => 'required',
                 'author_name' => 'required',
                 'image' => 'required|image|mimes:jpg,jpeg,png,svg'
@@ -128,7 +128,6 @@ class PostController extends Controller
 
                 return $request->validate([
                     'title' => "required|min:10|unique:posts,title,$id",
-                    'slug' => 'required',
                     'body' => 'required',
                     'author_name' => 'required',
                     'image' => 'image|mimes:jpg,jpeg,png,svg'
@@ -143,6 +142,18 @@ class PostController extends Controller
             $file_path = $file->store($path, 'public');
             $file_path = 'storage/' . $file_path;
             return $file_path;
+        }
+    }
+
+    public function deleteImage($image)
+    {
+        $array = explode('/', $image, 2);
+        $url = storage_path('app/public/' . $array[1]);
+        $url = str_replace('\\', '/', $url);
+        if (file_exists($url)) {
+            unlink($url);
+        } else {
+            return null;
         }
     }
 }
