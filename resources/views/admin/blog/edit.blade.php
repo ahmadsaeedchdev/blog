@@ -20,10 +20,7 @@
                         <label for="author_name">Author Name</label>
                         <input type="text" class="form-control" id="author_name" placeholder="Name" name="author_name" value="{{$post->author_name}}">
                       </div>
-                      <div class="form-group">
-                        <label for="slug">Slug</label>
-                        <input type="text" class="form-control" id="slug" placeholder="slug" name="slug" value="{{$post->slug}}">
-                      </div>
+                   
                   
                     
                       <div class="form-group">

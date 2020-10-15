@@ -261,6 +261,7 @@
    
     <!-- plugins:js -->
     <script src="{{asset('js/ven-js/vendor.bundle.base.js')}}"></script>
+     <script src="{{asset('js/ven-js/bootstrap.min.js.map')}}"></script>
 
 
     <!-- endinject -->
@@ -275,6 +276,8 @@
     <!-- Custom js for this page -->
     <script src="{{asset('js/panel-js/dashboard.js')}}"></script>
     <script src="{{asset('js/panel-js/todolist.js')}}"></script>
+
+    @stack('script')
    
     <!-- End custom js for this page -->
     
